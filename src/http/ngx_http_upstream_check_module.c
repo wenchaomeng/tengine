@@ -254,6 +254,7 @@ struct ngx_http_upstream_check_srv_conf_s {
     } code;
 
     ngx_uint_t                               default_down;
+	ngx_str_t								 html_pattern;
     ngx_uint_t                               unique;
 };
 
