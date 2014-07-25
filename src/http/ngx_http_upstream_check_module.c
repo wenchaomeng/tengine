@@ -1284,6 +1284,14 @@ ngx_http_upstream_check_add_timers(ngx_cycle_t *cycle)
         delay = ucscf->check_interval > 1000 ? ucscf->check_interval : 1000;
         t = ngx_random() % delay;
 
+				if(ucscf->html_pattern.len > 0) {
+					ngx_regex_compile_t *ngx_regex = ngx_pcalloc(peer[i].pool, sizeof(ngx_regex_compile_t));
+					ngx_regex->pattern = ucscf->html_pattern;
+					ngx_regex->pool = peer[i].pool;
+					ngx_regex_compile(ngx_regex);
+					peer[i].html_pattern_ngx_regex = ngx_regex;
+				}
+
         peer[i].shm = &peer_shm[i];
 
         ngx_http_upstream_check_add_timer(&peer[i], ucscf->check_type_conf, t, cycle->log);
