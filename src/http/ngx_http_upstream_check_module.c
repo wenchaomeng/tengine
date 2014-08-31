@@ -152,6 +152,8 @@ struct ngx_http_upstream_check_peer_s {
     ngx_http_upstream_check_peer_shm_t      *shm;
     ngx_http_upstream_check_srv_conf_t      *conf;
 
+    ngx_http_upstream_srv_conf_t			*uscf;
+
 	ngx_regex_compile_t                     *html_pattern_ngx_regex;
 
     unsigned                                 delete;
@@ -681,7 +683,7 @@ static ngx_check_status_command_t ngx_check_status_commands[] =  {
 
 
 static ngx_uint_t ngx_http_upstream_check_shm_generation = 0;
-static ngx_http_upstream_check_peers_t *check_peers_ctx = NULL;
+ngx_http_upstream_check_peers_t *check_peers_ctx = NULL;
 
 
 ngx_uint_t
@@ -732,6 +734,7 @@ ngx_http_upstream_check_add_peer(ngx_conf_t *cf,
 
     peer->index = peers->peers.nelts - 1;
     peer->conf = ucscf;
+    peer->uscf = us;
     peer->upstream_name = &us->host;
     peer->peer_addr = peer_addr;
 
@@ -918,6 +921,7 @@ ngx_http_upstream_check_add_dynamic_peer(ngx_pool_t *pool,
     ngx_memzero(peer, sizeof(ngx_http_upstream_check_peer_t));
 
     peer->conf = ucscf;
+    peer->uscf = us;
     peer->index = index;
     peer->upstream_name = &us->host;
     peer->peer_addr = peer_addr;
@@ -1348,7 +1352,7 @@ ngx_http_upstream_check_begin_handler(ngx_event_t *event)
     ngx_http_upstream_check_srv_conf_t  *ucscf;
     ngx_http_upstream_check_peers_shm_t *peers_shm;
 
-    if (ngx_http_upstream_check_need_exit()) {
+   if (ngx_http_upstream_check_need_exit()) {
         return;
     }
 

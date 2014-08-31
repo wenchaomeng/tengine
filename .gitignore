@@ -1,2 +1,4 @@
 Makefile
 objs/
+tags
+cscope.out
