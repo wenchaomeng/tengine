@@ -653,6 +653,7 @@ static ngx_path_init_t  ngx_http_proxy_temp_path = {
     ngx_string(NGX_HTTP_PROXY_TEMP_PATH), { 1, 2, 0 }
 };
 
+ngx_http_client_body_handler_pt ngx_http_upstream_init_mock = ngx_http_upstream_init;
 
 static ngx_int_t
 ngx_http_proxy_handler(ngx_http_request_t *r)
@@ -738,7 +739,7 @@ ngx_http_proxy_handler(ngx_http_request_t *r)
 
     u->accel = 1;
 
-    rc = ngx_http_read_client_request_body(r, ngx_http_upstream_init);
+    rc = ngx_http_read_client_request_body(r, ngx_http_upstream_init_mock);
 
     if (rc >= NGX_HTTP_SPECIAL_RESPONSE) {
         return rc;
