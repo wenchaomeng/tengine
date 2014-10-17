@@ -172,7 +172,7 @@ static void ngx_http_upstream_ssl_handshake(ngx_connection_t *c);
 static void ngx_http_upstream_rbtree_insert_value(ngx_rbtree_node_t *temp,
     ngx_rbtree_node_t *node, ngx_rbtree_node_t *sentinel);
 
-static ngx_http_upstream_srv_conf_t *
+ngx_http_upstream_srv_conf_t *
 ngx_http_upstream_rbtree_lookup(ngx_http_upstream_main_conf_t *umcf,
     ngx_str_t *host);
 #endif
@@ -5348,7 +5348,7 @@ ngx_http_upstream_rbtree_insert_value(ngx_rbtree_node_t *temp,
 }
 
 
-static ngx_http_upstream_srv_conf_t *
+ngx_http_upstream_srv_conf_t *
 ngx_http_upstream_rbtree_lookup(ngx_http_upstream_main_conf_t *umcf,
     ngx_str_t *host)
 {
