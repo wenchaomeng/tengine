@@ -138,6 +138,8 @@ static ngx_int_t ngx_http_proxy_rewrite(ngx_http_request_t *r,
     ngx_table_elt_t *h, size_t prefix, size_t len, ngx_str_t *replacement);
 
 static ngx_int_t ngx_http_proxy_add_variables(ngx_conf_t *cf);
+static ngx_int_t ngx_http_proxy_postconfiguration(ngx_conf_t *cf);
+
 static void *ngx_http_proxy_create_loc_conf(ngx_conf_t *cf);
 static char *ngx_http_proxy_merge_loc_conf(ngx_conf_t *cf,
     void *parent, void *child);
@@ -540,7 +542,7 @@ static ngx_command_t  ngx_http_proxy_commands[] = {
 
 static ngx_http_module_t  ngx_http_proxy_module_ctx = {
     ngx_http_proxy_add_variables,          /* preconfiguration */
-    NULL,                                  /* postconfiguration */
+    ngx_http_proxy_postconfiguration,      /* postconfiguration */
 
     NULL,                                  /* create main configuration */
     NULL,                                  /* init main configuration */
@@ -2471,6 +2473,13 @@ ngx_http_proxy_add_variables(ngx_conf_t *cf)
     return NGX_OK;
 }
 
+static ngx_int_t
+ngx_http_proxy_postconfiguration(ngx_conf_t *cf){
+
+	ngx_http_upstream_init_mock = ngx_http_upstream_init;
+
+    return NGX_OK;
+}
 
 static void *
 ngx_http_proxy_create_loc_conf(ngx_conf_t *cf)

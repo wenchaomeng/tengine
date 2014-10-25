@@ -5227,6 +5227,8 @@ not_found:
             continue;
         }
 
+        uscf = uscfp[i];
+
         if (flags & NGX_HTTP_UPSTREAM_CREATE) {
             uscfp[i]->flags = flags;
 
@@ -5238,7 +5240,7 @@ not_found:
 #endif
         }
 
-        return uscfp[i];
+        return uscf;
     }
 
     uscf = ngx_pcalloc(cf->pool, sizeof(ngx_http_upstream_srv_conf_t));
